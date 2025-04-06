@@ -18,7 +18,6 @@ interface Todo {
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
-  console.log(todos)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -30,6 +29,8 @@ export default function Home() {
         setLoading(false)
       } catch (error) {
         console.error("Error fetching todos:", error);
+      }finally {
+        setLoading(false)
       }
     };
 
@@ -59,7 +60,7 @@ export default function Home() {
       <Link className="absolute -bottom-15 right-0 bg-lavender active:bg-white border-r-2 border-b-3 border-lavender" href="/create"><FiPlusSquare color="white" size={40} /></Link>
     </div>
 
-    <div className="p-5 pt-20 flex flex-wrap justify-center md:justify-start gap-6 w-full">
+    <div className="p-5 pt-20 flex flex-wrap justify-center gap-6 w-full">
       {loading ? <Loading /> : todoElements.length === 0 ? <NoTodos /> : todoElements}
     </div>
    </main>
