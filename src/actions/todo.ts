@@ -60,26 +60,34 @@ export async function getTodoById(id: number) {
 } 
 
 // Update Todo
-export async function updateTodo(id: number, prevState: TodoTypeError, formData: FormData, ) { 
+import { revalidatePath } from "next/cache";
 
-  const title = formData.get("title") as string;
+export async function updateTodo(id: number, prevState: TodoTypeError, formData: FormData) {
+  const title = formData.get("title")?.toString().trim() || "";
   const categoryValue = formData.get("category");
-  const category: CategoryType = ["home", "school", "projects", "personal"].includes(categoryValue as CategoryType) ? (categoryValue as CategoryType) : "home";
+  const category: CategoryType = ["home", "school", "projects", "personal"].includes(categoryValue as CategoryType)
+    ? (categoryValue as CategoryType)
+    : "home";
 
   const errors: TodoType = {};
-
   if (!title) {
-    errors.title = "Todo is required!"
+    errors.title = "Todo is required!";
   }
 
-  if(Object.keys(errors).length !== 0) {
-   return {errors, success: false}
+  if (Object.keys(errors).length !== 0) {
+    return { errors, success: false };
   }
 
-  const updatedTodo = await db.update(todosTable).set({title, category}).where(eq(todosTable.id, id)).returning();
+  const updatedTodo = await db
+    .update(todosTable)
+    .set({ title, category })
+    .where(eq(todosTable.id, id))
+    .returning();
 
-  if(!updatedTodo) {
-    return {errors: {}, success: false}
+  if (!updatedTodo) {
+    return { errors: {}, success: false };
   }
-  redirect("/")
+
+  revalidatePath("/");
+  return { errors: {}, success: true };
 }

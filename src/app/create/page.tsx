@@ -22,7 +22,7 @@ export default function CreatePage() {
       <form action={formAction} className="bg-white p-4 w-4/5 sm:w-[429px] border-r-3 border-b-4 border-lavender flex flex-col gap-5">
         <div className="flex flex-col gap-4">
           <label className="text-xl text-lavender" htmlFor="title">Todo:</label>
-          <input className="border border-lavender p-4 text-xl text-[#A483C2]" id="title" name="title" type="text" />
+          <input className="border border-lavender p-4 text-xl text-[#A483C2]" id="title" name="title" type="text" placeholder="create a personal website..." />
           {<p className="text-red-500">{state.errors.title}</p>}
         </div>
         
