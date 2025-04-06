@@ -31,7 +31,7 @@ export default function CreatePage() {
           <select className="border border-lavender p-4 text-[#A483C2]" id="category" name="category" defaultValue={"home"}>
             <option value="home">Home</option>
             <option value="school">School</option>
-            <option value="project">Project</option>
+            <option value="projects">Projects</option>
             <option value="personal">Personal</option>
           </select>
         </div>

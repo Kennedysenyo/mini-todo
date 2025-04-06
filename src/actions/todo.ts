@@ -4,11 +4,14 @@ import { todosTable } from "@/db/schema";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 
-type CategeoryType = "home" | "school" | "projects" | "personal";
+export type CategoryType = "home" | "school" | "projects" | "personal";
+
+export type SortCategoryType = "all" | "home" | "school" | "projects" | "personal"
+
 
 interface TodoType{
   title?: string;
-  category?: CategeoryType;
+  category?: CategoryType;
 }
 
 export interface TodoTypeError {
@@ -19,8 +22,8 @@ export interface TodoTypeError {
 export async function createTodo(prevSate: TodoTypeError, formData: FormData) {
   const title = formData.get("title") as string;
   const categoryValue = formData.get("category");
-  const category: CategeoryType = ["home", "school", "projects", "personal"].includes(categoryValue as CategeoryType)
-    ? (categoryValue as CategeoryType)
+  const category: CategoryType = ["home", "school", "projects", "personal"].includes(categoryValue as CategoryType)
+    ? (categoryValue as CategoryType)
     : "home";
 
   const errors: TodoType = {};
@@ -41,8 +44,8 @@ export async function createTodo(prevSate: TodoTypeError, formData: FormData) {
 
 
 // Get all or categorized todos
-export async function getTodos(category: CategeoryType | null = null) {
-  if (!category) {
+export async function getTodos(category: SortCategoryType) {
+  if ( category === "all" ) {
     const res =  await db.select().from(todosTable)
     return res
   }
