@@ -63,7 +63,7 @@ export async function getTodoById(id: number) {
 export async function updateTodo(id: number, prevState: TodoTypeError, formData: FormData, ) { 
 
   const title = formData.get("title") as string;
-  const categoryValue = formData.get("categiry");
+  const categoryValue = formData.get("category");
   const category: CategoryType = ["home", "school", "projects", "personal"].includes(categoryValue as CategoryType) ? (categoryValue as CategoryType) : "home";
 
   const errors: TodoType = {};
