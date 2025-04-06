@@ -1,0 +1,1 @@
+ALTER TABLE "todos_table" ALTER COLUMN "category" SET DATA TYPE todo_category;

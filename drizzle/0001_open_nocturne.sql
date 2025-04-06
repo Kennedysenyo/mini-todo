@@ -1,0 +1,1 @@
+ALTER TABLE "todos_table" ADD COLUMN "category" "category" NOT NULL;
