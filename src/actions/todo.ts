@@ -2,6 +2,7 @@
 import { db } from "@/db";
 import { todosTable } from "@/db/schema";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 
 type CategeoryType = "home" | "school" | "projects" | "personal";
 
@@ -36,4 +37,15 @@ export async function createTodo(prevSate: TodoTypeError, formData: FormData) {
   }
   await db.insert(todosTable).values({title, category})
   redirect("/")
+}
+
+
+// Get all or categorized todos
+export async function getTodos(category: CategeoryType | null = null) {
+  if (!category) {
+    const res =  await db.select().from(todosTable)
+    return res
+  }
+  const res = await db.select().from(todosTable).where(eq(todosTable.category, category))
+  return res;
 }
