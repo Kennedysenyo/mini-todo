@@ -7,6 +7,7 @@ import { getTodos, SortCategoryType } from "@/actions/todo";
 import { useState, useEffect } from "react";
 import { Loading } from "@/components/Loading";
 import { NoTodos } from "@/components/NoTodos";
+import { useSearchParams } from "next/navigation";
 
 
 interface Todo {
@@ -17,8 +18,11 @@ interface Todo {
 }
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [loading, setLoading] = useState(true)
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const searchParams = useSearchParams();
+  const refresh = searchParams.get("refresh")
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -35,7 +39,7 @@ export default function Home() {
     };
 
     fetchTodos();
-  }, []);
+  }, [refresh]);
 
   const handleCategories = async (category: SortCategoryType) => {
     try {

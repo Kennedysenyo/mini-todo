@@ -1,10 +1,11 @@
 "use client"
-import { notFound, useSearchParams } from "next/navigation";
+import { notFound, useSearchParams, redirect } from "next/navigation";
 import { getTodoById, updateTodo, TodoTypeError } from "@/actions/todo";
 import { useEffect, useState, useActionState } from "react";
 import { CategoryType } from "@/actions/todo";
 import { Loading } from "@/components/Loading";
 import NotFound from "../not-found";
+import { SubmitButton } from "@/components/SubmitButton";
 
 
 interface TodoType {
@@ -37,7 +38,12 @@ export default function EditPage() {
   const [todo, setTodo] = useState<TodoType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   
-  
+  useEffect(() => {
+    if (state.success) {
+
+      redirect("/?refresh=true"); 
+    }
+  }, [state.success]);
   
   useEffect(() => {
     const fetchTodo = async() => {
@@ -89,7 +95,7 @@ export default function EditPage() {
         </select>
       </div>
 
-      <button className="bg-lavender p-4 mt-10 text-white text-xl cursor-pointer border-r-2 border-b-4 active:bg-white active:text-lavender hover:shaldow-lg" type="submit">Save</button>
+      <SubmitButton label="Save" />
     </form>
       }
     </main>
