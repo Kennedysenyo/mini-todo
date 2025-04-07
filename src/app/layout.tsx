@@ -20,9 +20,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  createmodal,
   modal,
   children,
 }: Readonly<{
+  createmodal: React.ReactNode,
   modal: React.ReactNode,
   children: React.ReactNode;
 }>) {
@@ -32,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
+        {createmodal}
         {modal}
         {children}
         <Footer />

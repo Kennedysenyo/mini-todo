@@ -1,8 +1,8 @@
 "use server";
 import { db } from "@/db";
 import { todosTable } from "@/db/schema";
-import { notFound, redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export type CategoryType = "home" | "school" | "projects" | "personal";
 
@@ -19,6 +19,7 @@ export interface TodoTypeError {
   success: boolean;
 }
 
+// Create a todo
 export async function createTodo(prevSate: TodoTypeError, formData: FormData) {
   const title = formData.get("title") as string;
   const categoryValue = formData.get("category");
@@ -38,8 +39,11 @@ export async function createTodo(prevSate: TodoTypeError, formData: FormData) {
       success: false
     }
   }
+
   await db.insert(todosTable).values({title, category})
-  redirect("/")
+  
+  revalidatePath("/")
+  return {errors: {}, success: true}
 }
 
 
@@ -60,8 +64,6 @@ export async function getTodoById(id: number) {
 } 
 
 // Update Todo
-import { revalidatePath } from "next/cache";
-
 export async function updateTodo(id: number, prevState: TodoTypeError, formData: FormData) {
   const title = formData.get("title")?.toString().trim() || "";
   const categoryValue = formData.get("category");

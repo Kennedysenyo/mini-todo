@@ -1,9 +1,12 @@
 "use client"
-import { useActionState } from "react"
+import { useActionState, useEffect } from "react"
 import { createTodo, TodoTypeError } from "@/actions/todo";
+import { useRouter } from "next/navigation";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default function CreatePage() {
 
+  const router = useRouter();
   const initialState: TodoTypeError = {
     errors: {},
     success: false,
@@ -13,6 +16,12 @@ export default function CreatePage() {
     createTodo,
     initialState
   )
+  
+  useEffect(() => {
+      if(state.success) {
+        router.push("/?refresh=true")
+      }
+    }, [state.success])
   
 
   return (
@@ -36,7 +45,7 @@ export default function CreatePage() {
           </select>
         </div>
 
-        <button disabled={isPending} className="bg-lavender p-4 mt-10 text-white text-xl cursor-pointer border-r-2 border-b-4 active:bg-white active:text-lavender hover:shaldow-lg" type="submit">{isPending ? "Loading" : "Add"}</button>
+        <SubmitButton label="Add" />
       </form>
     </main>
   )

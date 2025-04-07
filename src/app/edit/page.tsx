@@ -1,5 +1,5 @@
 "use client"
-import { notFound, useSearchParams, redirect } from "next/navigation";
+import { notFound, useSearchParams, useRouter } from "next/navigation";
 import { getTodoById, updateTodo, TodoTypeError } from "@/actions/todo";
 import { useEffect, useState, useActionState } from "react";
 import { CategoryType } from "@/actions/todo";
@@ -16,6 +16,7 @@ interface TodoType {
 }
 
 export default function EditPage() {
+  const router = useRouter()
 
   const searchParams = useSearchParams();
   const id = searchParams.get("todo");
@@ -40,8 +41,7 @@ export default function EditPage() {
   
   useEffect(() => {
     if (state.success) {
-
-      redirect("/?refresh=true"); 
+      router.push("/?refresh=true")
     }
   }, [state.success]);
   

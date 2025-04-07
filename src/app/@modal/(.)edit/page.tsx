@@ -41,7 +41,8 @@ export default function EditPage() {
   
   useEffect(() => {
     if (state.success) {
-      router.back(); // closes modal
+      router.push("/?refresh=true"); 
+      router.back(); 
     }
   }, [state.success]);
   
