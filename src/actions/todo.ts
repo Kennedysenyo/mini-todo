@@ -93,3 +93,9 @@ export async function updateTodo(id: number, prevState: TodoTypeError, formData:
   revalidatePath("/");
   return { errors: {}, success: true };
 }
+
+
+// Delete a todo 
+export async function deleteTodo(id: number) {
+  await db.delete(todosTable).where(eq(todosTable.id, id));
+}
